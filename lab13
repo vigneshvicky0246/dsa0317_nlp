@@ -1,0 +1,48 @@
+DISCRIPTION:-
+Function generate_parse_tree:
+This function takes a sentence and a grammar as inputs.
+It creates a ChartParser using the provided grammar.
+The sentence is tokenized using NLTK's word_tokenize.
+The parser generates all possible parse trees for the tokenized sentence.
+The function returns a list of parse trees.
+Grammar Definition:
+simple_grammar is a context-free grammar (CFG) defined using NLTK's CFG.fromstring method.
+The grammar defines the structure of valid sentences, including rules for sentence structure (S -> NP VP), noun phrases (NP -> Det N), verb phrases (VP -> V NP), determiners (Det -> 'the' | 'a'), nouns (N -> 'dog' | 'cat'), and verbs (V -> 'chased' | 'caught').
+Parsing the Sentence:
+The sentence "the dog chased a cat" is parsed using the generate_parse_tree function.
+All possible parse trees are generated and printed.
+
+CODE:-
+import nltk
+def generate_parse_tree(sentence, grammar):
+    parser = nltk.ChartParser(grammar)
+    tokens = nltk.word_tokenize(sentence)
+    parse_trees = list(parser.parse(tokens))
+    return parse_trees
+simple_grammar = nltk.CFG.fromstring("""
+    S -> NP VP
+    NP -> Det N
+    VP -> V NP
+    Det -> 'the' | 'a'
+    N -> 'dog' | 'cat'
+    V -> 'chased' | 'caught'
+""")
+sentence = "the dog chased a cat"
+parse_trees = generate_parse_tree(sentence, simple_grammar)
+
+for i, tree in enumerate(parse_trees):
+    print(f"Parse Tree {i + 1}:")
+    tree.pretty_print()
+    print()
+
+OUTPUT:-
+Parse Tree 1:
+              S               
+      ________|_____           
+     |              VP        
+     |         _____|___       
+     NP       |         NP    
+  ___|___     |      ___|___   
+Det      N    V    Det      N 
+ |       |    |     |       |  
+the     dog chased  a      cat

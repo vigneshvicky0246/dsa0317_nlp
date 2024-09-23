@@ -1,0 +1,65 @@
+DISCRIPTION:-
+This line imports the random module, which will be used to randomly select the next word during text generation.
+This function, build_bigram_model, takes a list of sentences and returns a dictionary representing the bigram model:
+bigram_model = {}: Initializes an empty dictionary to store the bigram model.
+tokens = sentence.split(): Splits each sentence into tokens (words).
+The nested for loop iterates over the tokens, and for each token, it considers the next token as the next word in the bigram.
+if current_word in bigram_model: Checks if the current word is already a key in the bigram model.
+bigram_model[current_word].append(next_word): If the current word is already a key, it appends the next word to the list of next words.
+bigram_model[current_word] = [next_word]: If the current word is not a key, it adds the current word as a key with the next word as the first item in the list of next words.
+This function, generate_text, generates text of a specified length using the bigram model and a given start word:
+generated_text = [start_word]: Initializes the generated text with the start word.
+The for loop iterates length - 1 times to generate the desired length of text.
+if start_word in bigram_model: Checks if the current word is in the bigram model.
+next_word = random.choice(bigram_model[start_word]): Randomly selects the next word from the list of next words associated with the current word in the bigram model.
+generated_text.append(next_word): Appends the next word to the generated text.
+start_word = next_word: Updates the current word to the next word.
+If the current word is not in the bigram model, the loop breaks.
+return ' '.join(generated_text): Joins the generated words into a single string and returns it.
+bigram_model = build_bigram_model(sentences): Builds the bigram model from the list of sentences.
+print(bigram_model): Prints the bigram model dictionary.
+generated_text = generate_text(bigram_model, start_word="I", length=8): Generates text starting with the word "I" and having a length of 8 words.
+print("Generated Text:", generated_text): Prints the generated text.
+
+
+CODE:-
+
+import random
+def build_bigram_model(sentences):
+    bigram_model = {}
+    for sentence in sentences:
+        tokens = sentence.split()
+        for i in range(len(tokens) - 1):
+            current_word = tokens[i]
+            next_word = tokens[i + 1]
+            if current_word in bigram_model:
+                bigram_model[current_word].append(next_word)
+            else:
+                bigram_model[current_word] = [next_word]
+    return bigram_model
+def generate_text(bigram_model, start_word, length=10):
+    generated_text = [start_word]
+    for _ in range(length - 1):
+        if start_word in bigram_model:
+            next_word = random.choice(bigram_model[start_word])
+            generated_text.append(next_word)
+            start_word = next_word
+        else:
+            break
+    return ' '.join(generated_text)
+sentences = [
+    "I love programming in Python.",
+    "Python is a versatile programming language.",
+    "Text generation using bigram models is interesting.",
+    "Natural Language Processing involves analyzing and generating text."
+]
+bigram_model = build_bigram_model(sentences)
+print(bigram_model)
+generated_text = generate_text(bigram_model, start_word="I", length=8)
+print("Generated Text:", generated_text)
+
+
+OUTPUT:-
+
+{'I': ['love'], 'love': ['programming'], 'programming': ['in', 'language.'], 'in': ['Python.'], 'Python': ['is'], 'is': ['a', 'interesting.'], 'a': ['versatile'], 'versatile': ['programming'], 'Text': ['generation'], 'generation': ['using'], 'using': ['bigram'], 'bigram': ['models'], 'models': ['is'], 'Natural': ['Language'], 'Language': ['Processing'], 'Processing': ['involves'], 'involves': ['analyzing'], 'analyzing': ['and'], 'and': ['generating'], 'generating': ['text.']}
+Generated Text: I love programming in Python.

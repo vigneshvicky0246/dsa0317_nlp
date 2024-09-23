@@ -1,0 +1,55 @@
+DESCRIPTION:
+The provided code uses the pyparsing library to implement a simple First-Order Predicate Calculus (FOPC) parser.
+The code is designed to parse basic logical expressions involving variables, predicates, quantifiers, and unary operators. 
+The parser can handle expressions such as "forall x (P(x) -> Q(x))" and "exists y (P(y) & Q(y))".
+
+CODE:
+from pyparsing import Word, alphanums, oneOf, Forward, ParseException, infixNotation, opAssoc
+
+# Define basic components
+variable = Word(alphanums)
+predicate = Word(alphanums)
+quantifier = oneOf("forall exists")
+expression = Forward()
+unary_operators = oneOf("not ¬")
+binary_operators = oneOf("-> & |")
+
+# Define an atomic expression
+atom = predicate + "(" + variable + ")"
+
+# Define the structure of expressions
+expression <<= infixNotation(atom,
+                             [
+                                 (unary_operators, 1, opAssoc.RIGHT),
+                                 (binary_operators, 2, opAssoc.LEFT),
+                             ])
+
+# Quantified expression
+quantified_expression = quantifier + variable + "(" + expression + ")"
+
+# Extend the expression to include quantified expressions
+expression <<= quantified_expression | expression
+
+def parse_fopc(expression_str):
+    try:
+        result = expression.parseString(expression_str, parseAll=True)
+        return result
+    except ParseException as e:
+        print(f"Error parsing expression: {e}")
+        return None
+
+# Test expressions
+expression1 = "forall x (P(x) -> Q(x))"
+expression2 = "exists y (P(y) & Q(y))"
+
+# Parse the test expressions
+parsed_expression1 = parse_fopc(expression1)
+parsed_expression2 = parse_fopc(expression2)
+
+# Output the results
+print("Parsed Expression 1:", parsed_expression1)
+print("Parsed Expression 2:", parsed_expression2)
+
+Output:
+Parsed Expression 1: ['forall', 'x', '(', ['P', '(', 'x', ')', '->', 'Q', '(', 'x', ')'], ')']
+Parsed Expression 2: ['exists', 'y', '(', ['P', '(', 'y', ')', '&', 'Q', '(', 'y', ')'], ')']

@@ -1,0 +1,42 @@
+DESCRIPTION:
+WordNet is a lexical database for the English language that groups words into sets of synonyms called synsets, providing short definitions and usage examples. 
+It is widely used in natural language processing tasks. 
+In this program, we'll use the nltk library to access WordNet and explore various properties of a given word, such as its definitions, examples, 
+synonyms (lemmas), hypernyms (more general terms), hyponyms (more specific terms), and antonyms.
+
+CODE:
+import nltk
+nltk.download('wordnet')
+from nltk.corpus import wordnet
+def explore_word_meanings(word):
+    synsets = wordnet.synsets(word)
+
+    if not synsets:
+        print(f"No synsets found for '{word}'.")
+    else:
+        print(f"Synsets for '{word}':")
+        for synset in synsets:
+            print(f" - {synset.name()} ({synset.pos()})")
+            print(f"   Definition: {synset.definition()}")
+            print(f"   Examples: {synset.examples()}")
+            print()
+word_to_explore = "python"
+explore_word_meanings(word_to_explore)
+
+OUTPUT:
+Synsets for 'python':
+ - python.n.01 (n)
+   Definition: large Old World boas
+   Examples: []
+
+ - Python.n.02 (n)
+   Definition: (Greek mythology) dragon killed by Apollo at Delphi
+   Examples: []
+
+ - Python.n.03 (n)
+   Definition: a soothsaying spirit or a person who is possessed by such a spirit
+   Examples: ['the Pythia was the oracle of Apollo at Delphi']
+
+ - Python.n.04 (n)
+   Definition: a high-level programming language designed to be easy to read and simple to implement
+   Examples: ['Python is an interpreted language']

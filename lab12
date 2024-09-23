@@ -1,0 +1,42 @@
+DISCRIPTION:-
+Grammar Rules (Productions):
+productions is a dictionary where each key is a non-terminal symbol, and the value is a list of possible productions (tuples of symbols).
+Input String:
+The input string "John eats" is split into tokens.
+Stack-Based Parsing:
+The stack is initialized with the start symbol ('S').
+The loop continues until the stack is empty.
+For each symbol popped from the stack, the script checks if it is a non-terminal.
+If it is a non-terminal, the script looks for a matching production that corresponds to the current token.
+If a matching production is found, the right-hand side symbols of the production are pushed onto the stack in reverse order.
+If the current symbol is a terminal, it is matched with the current token.
+If the symbol matches the token, the token is removed from the token list.
+If there is no match or no more tokens, the input string is considered invalid
+
+CODE:-
+start_symbol = 'S'
+productions = {
+    'S': [['NP', 'VP']],
+    'NP': [['John'], ['Mary']],
+    'VP': [['eats'], ['sleeps']]
+}
+input_str = "Mary sleeps"
+tokens = input_str.split()
+chart = {}
+for production in productions[start_symbol]:
+    chart[start_symbol] = [(0, production)]
+for i in range(len(tokens) + 1):
+    for symbol in list(chart):
+        for entry in chart[symbol]:
+            if len(entry[1]) > i:
+                next_symbol = entry[1][i]
+                if next_symbol in productions:
+                    for production in productions[next_symbol]:
+                        chart[next_symbol] = chart.get(next_symbol, []) + [(i, production)]
+if (len(tokens), [start_symbol]) in chart.get(start_symbol, []):
+    print("Input string parsed successfully")
+else:
+    print("Invalid input string")
+
+OUTPUT:-
+"Invalid input string"

@@ -1,0 +1,49 @@
+DISCRIPTION:-
+Defining a PCFG:
+pcfg_grammar is a Probabilistic Context-Free Grammar defined using NLTK's PCFG.fromstring method.
+Each production rule has an associated probability, indicating the likelihood of that rule being used.
+The sum of the probabilities for productions with the same left-hand side must be 1.
+Creating a Viterbi Parser:
+pcfg_parser is a Viterbi parser created with the defined PCFG. The Viterbi parser is used for finding the most probable parse tree for a given sentence.
+Sentence to Parse:
+The sentence "the dog chased the cat in the park" is provided for parsing.
+Tokenizing the Sentence:
+The sentence is tokenized into words using NLTK's word_tokenize function.
+Parsing the Sentence:
+The pcfg_parser.parse(tokens) method parses the tokenized sentence and generates parse trees.
+For each parse tree, the script prints the tree structure using pretty_print() and displays the probability of the tree.
+Output
+
+CODE:-
+import nltk
+pcfg_grammar = nltk.PCFG.fromstring("""
+    S -> NP VP [1.0]
+    NP -> Det N [0.5] | N [0.3] | N PP [0.2]
+    VP -> V NP [0.9] | VP PP [0.1]
+    Det -> 'the' [0.8] | 'a' [0.2]
+    N -> 'dog' [0.4] | 'cat' [0.3] | 'park' [0.3]
+    V -> 'chased' [0.7] | 'caught' [0.3]
+    PP -> P NP [1.0]
+    P -> 'in' [0.6] | 'on' [0.4]
+""")
+pcfg_parser = nltk.ViterbiParser(pcfg_grammar)
+sentence = "the dog chased the cat in the park"
+tokens = nltk.word_tokenize(sentence)
+for tree in pcfg_parser.parse(tokens):
+    tree.pretty_print()
+    print("Probability:", tree.prob())
+
+OUTPUT:-
+                 S                          
+      ______________|_______                    
+     |                      VP                 
+     |               _______|_______            
+     |              VP              PP         
+     |         _____|___         ___|___        
+     NP       |         NP      |       NP     
+  ___|___     |      ___|___    |    ___|___    
+Det      N    V    Det      N   P  Det      N  
+ |       |    |     |       |   |   |       |   
+the     dog chased the     cat  in the     park
+
+Probability: 8.709120000000002e-05

@@ -1,0 +1,51 @@
+DISCRIPTION:-
+Function check_agreement:
+This function takes a sentence and a grammar as inputs.
+It tokenizes the sentence using NLTK's word_tokenize.
+It attempts to parse the sentence using a ChartParser with the provided grammar.
+If a parse tree is successfully generated, it returns True, indicating that the sentence adheres to the grammar rules (subject-verb agreement is correct).
+If no parse tree is generated (a StopIteration exception is caught), it returns False, indicating that the sentence does not adhere to the grammar rules (subject-verb agreement is incorrect).
+Grammar Definition:
+agreement_grammar is a CFG defined using NLTK's CFG.fromstring method.
+The grammar includes rules for singular and plural noun phrases (NP_SG, NP_PL) and verb phrases (VP_SG, VP_PL).
+It defines determiners (Det_SG, Det_PL), nouns (N_SG, N_PL), and verbs (V_SG, V_PL) with appropriate forms for singular and plural cases.
+Sentences to Check:
+Two sentences are provided: "the cat chases" and "the cats chases".
+Agreement Check:
+The function check_agreement is called for each sentence.
+The results are printed, indicating whether each sentence has correct subject-verb agreement.
+
+CODE:-
+import nltk
+def check_agreement(sentence, grammar):
+    parser = nltk.ChartParser(grammar)
+    tokens = nltk.word_tokenize(sentence)
+    
+    try:
+        parse_tree = next(parser.parse(tokens))
+        return True
+    except StopIteration:
+        return False
+agreement_grammar = nltk.CFG.fromstring("""
+    S -> NP_SG VP_SG | NP_PL VP_PL
+    NP_SG -> Det_SG N_SG
+    NP_PL -> Det_PL N_PL
+    VP_SG -> V_SG
+    VP_PL -> V_PL
+    Det_SG -> 'the'
+    Det_PL -> 'the'
+    N_SG -> 'cat'
+    N_PL -> 'cats'
+    V_SG -> 'chases'
+    V_PL -> 'chase'
+""")
+sentence1 = "the cat chases"
+sentence2 = "the cats chases"
+result1 = check_agreement(sentence1, agreement_grammar)
+result2 = check_agreement(sentence2, agreement_grammar)
+print(f"Sentence 1 Agreement: {'Yes' if result1 else 'No'}")
+print(f"Sentence 2 Agreement: {'Yes' if result2 else 'No'}")
+
+OUTPUT:-
+Sentence 1 Agreement: Yes
+Sentence 2 Agreement: No

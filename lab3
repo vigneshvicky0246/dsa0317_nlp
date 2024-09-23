@@ -1,0 +1,42 @@
+DISCRIPTION:-
+
+These lines import the necessary libraries and functions from These lines import the necessary libraries and functions from NLTK: nltk for general utilities, PorterStemmer for stemming words, and word_tokenize for splitting the text into individual words.
+This line defines a function named perform_morphological_analysis which takes a single argument text.
+The word_tokenize function splits the input text into individual words or tokens. These tokens are stored in the list words. The print statement outputs the tokenized words to the console for inspection.
+This line creates an instance of the PorterStemmer class, which will be used to stem the words. The print statement outputs the stemmer instance to the console.
+This line applies the stem method of the PorterStemmer to each word in the words list using a list comprehension. The result is a new list stemmed_words containing the stemmed versions of the original words.
+This line returns the list of stemmed words from the function.
+This line defines a string variable input_text containing the text to be analyzed.
+This line calls the perform_morphological_analysis function with input_text as the argument and stores the returned list of stemmed words in the result variable.
+These lines print the original input text to the console.
+These lines print the results of the morphological analysis (the list of stemmed words) to the console. The \n in the first print statement adds a newline for better readability.
+
+
+CODE:-
+
+import nltk
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
+def perform_morphological_analysis(text):
+    words = word_tokenize(text)
+    print(words)
+    porter_stemmer = PorterStemmer()
+    print(porter_stemmer)
+    stemmed_words = [porter_stemmer.stem(word) for word in words]
+    return stemmed_words
+input_text = "Running and played are both verb forms of the word run and play."
+result = perform_morphological_analysis(input_text)
+print("Original Text:")
+print(input_text)
+print("\nMorphological Analysis:")
+print(result)
+
+OUTPUT:-
+
+['Running', 'and', 'played', 'are', 'both', 'verb', 'forms', 'of', 'the', 'word', 'run', 'and', 'play', '.']
+<PorterStemmer>
+Original Text:
+Running and played are both verb forms of the word run and play.
+
+Morphological Analysis:
+['run', 'and', 'play', 'are', 'both', 'verb', 'form', 'of', 'the', 'word', 'run', 'and', 'play', '.']

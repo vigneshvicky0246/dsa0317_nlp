@@ -1,0 +1,46 @@
+DISCRIPTION:-
+These lines import the nltk library and ensure that the averaged_perceptron_tagger data is downloaded. This data is necessary for the part-of-speech tagging function pos_tag.
+This line imports the pos_tag function, which tags words with their respective part-of-speech, and word_tokenize, which splits a sentence into words.
+This function takes a sentence as input and performs the following steps:
+word_tokenize(sentence): Tokenizes the sentence into words.
+pos_tag(words): Tags each word with its part-of-speech.
+print(tagged_words): Prints the tagged words (for debugging purposes).
+[word for word, pos in tagged_words if pos.startswith('NN')]: Extracts words that are tagged as nouns (tags starting with 'NN').
+return nouns: Returns the list of nouns.
+This part defines the sentence to be processed and calls the identify_nouns function to get the list of nouns in the sentence.
+This section checks if any nouns were found:
+If nouns are found, it prints each noun with the appropriate plural suffix:
+If a noun ends with 's', 'x', 'z', or 'ch', 'sh', it adds 'es' to the noun.
+Otherwise, it adds 's'.
+If no nouns are found, it prints a message indicating that no nouns were found.
+
+CODE:-
+ 
+import nltk
+nltk.download('averaged_perceptron_tagger')
+from nltk import pos_tag, word_tokenize
+def identify_nouns(sentence):
+    words = word_tokenize(sentence)
+    tagged_words = pos_tag(words)
+    print(tagged_words)
+    nouns = [word for word, pos in tagged_words if pos.startswith('NN')]
+    return nouns
+sentence = "The quick brown fox jumps over the lazy dog."
+nouns = identify_nouns(sentence)
+if nouns:
+    print("Nouns identified in the sentence:")
+    for noun in nouns:
+        if noun[-1].lower() in {'s', 'x', 'z'} or noun[-2:].lower() in {'ch', 'sh'}:
+            print(noun+"es")
+        else:
+            print(noun+"s")
+else:
+    print("No nouns found in the sentence.")
+             
+OUTPUT:-
+
+[('The', 'DT'), ('quick', 'JJ'), ('brown', 'NN'), ('fox', 'NN'), ('jumps', 'VBZ'), ('over', 'IN'), ('the', 'DT'), ('lazy', 'JJ'), ('dog', 'NN'), ('.', '.')]
+Nouns identified in the sentence:
+browns
+foxes
+dogs

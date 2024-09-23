@@ -1,0 +1,37 @@
+DISCRIPTION:-
+Training Data:
+training_data contains lists of tuples, where each tuple is a word and its POS tag.
+Transformation Rules:
+rules is a list of tuples, where each tuple defines a transformation rule. Each rule specifies a sequence of two tags (tag1 and tag2). If a word with tag1 is followed by a word with tag2, tag1 is transformed into new_tag.
+Function to Apply Rules:
+apply_rules(tagged_sentence, rules) iterates over the tagged sentence and applies the transformation rules.
+Testing:
+The test sentence is tokenized and tagged using NLTK's pos_tag.
+The transformation rules are applied to the tagged test sentence.
+The original and transformed tagged sentences are printed.
+
+CODE:-
+import nltk
+nltk.download('averaged_perceptron_tagger')
+training_data = [
+    [('The', 'DT'), ('cat', 'NN'), ('is', 'VBZ'), ('on', 'IN'), ('the', 'DT'), ('mat', 'NN')],
+    [('I', 'PRP'), ('love', 'VBP'), ('eating', 'VBG'), ('pizza', 'NN')]
+]
+rules = [
+    ('NN', 'VBZ', 'VBG'),  
+    ('NN', 'VBZ', 'NN'),  
+    ('VBG', 'NN', 'VBG'), 
+]
+for sentence in training_data:
+    for i in range(len(sentence) - 1):
+        for (tag1, tag2, new_tag) in rules:
+            if (sentence[i][1] == tag1 and sentence[i+1][1] == tag2):
+                sentence[i] = (sentence[i][0], new_tag)
+test_sentence = "The cat is on the mat"
+tagged_sentence = nltk.pos_tag(test_sentence.split())
+print("Original test sentence:", test_sentence)
+print("Tagged sentence after transformation:", tagged_sentence)
+
+OUTPUT:-
+Original test sentence: The cat is on the mat
+Tagged sentence after transformation: [('The', 'DT'), ('cat', 'NN'), ('is', 'VBZ'), ('on', 'IN'), ('the', 'DT'), ('mat', 'NN')]

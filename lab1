@@ -1,0 +1,22 @@
+Importing the re module: This is necessary for working with regular expressions in Python.
+
+Sample text: A string that we will search within.
+
+Defining a simple pattern: r'\bain\b' looks for the exact word "ain".
+Using re.search(): This function returns a match object if the pattern is found, otherwise, it returns None.
+Using re.findall(): This function returns all non-overlapping matches of the pattern in the string as a list.
+Using re.finditer(): This function returns an iterator yielding match objects over all non-overlapping matches of the pattern.
+Using a more complex pattern: r'\b[Ss]\w*' finds words starting with 'S' or 's'.
+Using re.sub(): This function replaces all occurrences of the pattern in the string with a specified replacement text.
+
+CODE:-
+import re
+text = "Hello, my name is nanditha and my email is nanditha@gmail.com"
+pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+regex = re.compile(pattern)
+matches = regex.findall(text)
+for match in matches:
+    print("Match found: ", match)
+
+OUTPUT:-
+Match found:  shakthi007@gmail.com

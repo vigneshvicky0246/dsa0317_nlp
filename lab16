@@ -1,0 +1,40 @@
+DISCRIPTION:-
+Import spaCy:
+import spacy imports the spaCy library, which is used for natural language processing.
+Define perform_ner Function:
+perform_ner(text) is a function that performs Named Entity Recognition (NER) on the provided text.
+nlp = spacy.load("en_core_web_sm") loads the small English language model from spaCy.
+doc = nlp(text) processes the input text to generate a Doc object containing linguistic annotations.
+entities = [(ent.text, ent.label_) for ent in doc.ents] extracts named entities and their labels from the Doc object. Each entity is represented as a tuple with the entity text and its label.
+Sample Text:
+sample_text contains a sentence with various named entities including a company, locations, and a person.
+Perform NER:
+named_entities = perform_ner(sample_text) calls the perform_ner function to process the sample text and extract named entities.
+Print Named Entities:
+The script prints each named entity along with its label (e.g., PERSON, ORG, GPE).
+
+
+CODE:-
+import spacy
+def perform_ner(text):
+    nlp = spacy.load("en_core_web_sm")
+
+    doc = nlp(text)
+
+    entities = [(ent.text, ent.label_) for ent in doc.ents]
+
+    return entities
+sample_text = "Apple Inc. is a technology company headquartered in Cupertino, California. Steve Jobs co-founded Apple in 1976."
+named_entities = perform_ner(sample_text)
+print("Named Entities:")
+for entity, label in named_entities:
+    print(f"{entity} - {label}")
+
+OUTPUT:-
+Named Entities:
+Apple Inc. - ORG
+Cupertino - GPE
+California - GPE
+Steve Jobs - PERSON
+Apple - ORG
+1976 - DATE

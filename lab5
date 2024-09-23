@@ -1,0 +1,38 @@
+DISCRIPTION:-
+
+This line imports the PorterStemmer class from the nltk.stem module. The Porter Stemming algorithm is a widely used method for reducing words to their base or root form.
+This function, perform_stemming, takes a list of words as input and returns a list of their stemmed forms:
+porter_stemmer = PorterStemmer(): Initializes the PorterStemmer object.
+stemmed_words = [porter_stemmer.stem(word) for word in words]: Applies the stem method of the PorterStemmer object to each word in the input list and stores the results in stemmed_words.
+return stemmed_words: Returns the list of stemmed words.
+This line defines a list of words that you want to stem.
+This part of the script calls the perform_stemming function with the list of words to be stemmed and stores the result in stemmed_words.
+It then prints the original words and their corresponding stemmed forms.
+
+CODE:-
+
+import nltk
+nltk.download('averaged_perceptron_tagger')
+from nltk import pos_tag, word_tokenize
+def identify_nouns(sentence):
+    words = word_tokenize(sentence)
+    tagged_words = pos_tag(words)
+    print(tagged_words)
+    nouns = [word for word, pos in tagged_words if pos.startswith('NN')]
+    return nouns
+sentence = "The quick brown fox jumps over the lazy dog."
+nouns = identify_nouns(sentence)
+if nouns:
+    print("Nouns identified in the sentence:")
+    for noun in nouns:
+        if noun[-1].lower() in {'s', 'x', 'z'} or noun[-2:].lower() in {'ch', 'sh'}:
+            print(noun+"es")
+        else:
+            print(noun+"s")
+else:
+    print("No nouns found in the sentence.")
+
+OUTPUT:-
+
+Original Words: ['running', 'jumps', 'happily', 'dogs', 'cats', 'better']
+Stemmed Words: ['run', 'jump', 'happili', 'dog', 'cat', 'better']
